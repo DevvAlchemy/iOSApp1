@@ -36,6 +36,9 @@ struct ContentView: View {
                 .pickerStyle(SegmentedPickerStyle())
                 .padding()
 
+                //Quantity
+
+
                 // Coffee Rating
                 CoffeeRatingView(rating: $coffeeRating)
                     .padding()
@@ -49,7 +52,7 @@ struct ContentView: View {
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.brown)
+                        .background(Color.orange.opacity(0.7))
                         .foregroundColor(.white)
                         .cornerRadius(55)
                 }
@@ -64,7 +67,7 @@ struct ContentView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(Color.gray.opacity(0.2))
-                        .cornerRadius(10)
+                        .cornerRadius(20)
                 }
                 .padding()
             }

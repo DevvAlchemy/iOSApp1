@@ -8,15 +8,16 @@
 import SwiftUI
 
 @main
-struct iOSAPPApp: App {
+struct iOSAPPAPP: App {
+    @StateObject private var orderStore = OrderStore()
     var body: some Scene {
       //  let orderStore = OrderStore
         WindowGroup {
             ContentView()
-                .onAppear {
-                         print(URL.documentsDirectory)
-                        }
-              //  .environmentObject(OrderStore)
+             //   .onAppear {
+            //             print(URL.documentsDirectory)
+           //             }
+               .environmentObject(orderStore)
         }
     }
 }
