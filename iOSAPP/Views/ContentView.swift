@@ -12,6 +12,7 @@ struct ContentView: View {
     @State private var showOrder = false
     @State private var coffeeType = "Latte" //default selection on order page
     @State private var coffeeSize = "Medium" //default size for orders
+    @State private var Quantity = 1
     @State private var coffeeRating = 3
 
     var body: some View {
@@ -37,7 +38,8 @@ struct ContentView: View {
                 .padding()
 
                 //Quantity
-
+                QuantityView (quantity:$Quantity)
+                    .padding()
 
                 // Coffee Rating
                 CoffeeRatingView(rating: $coffeeRating)
@@ -45,7 +47,7 @@ struct ContentView: View {
 
                 // Save Order Button
                 Button(action: {
-                    let newOrder = "\(coffeeType) - \(coffeeSize) (Rating: \(coffeeRating))"
+                    let newOrder = "\(coffeeType) - \(coffeeSize)(Quantity: \(Quantity) (Rating: \(coffeeRating))"
                     orderStore.addOrder(newOrder)
                 }) {
                     Text("Save Order")
