@@ -3,7 +3,6 @@
 //  iOSAPP
 //
 //  Created by Royal K on 2025-01-25.
-//
 
 import SwiftUI
 
@@ -24,7 +23,7 @@ struct WelcomeView: View {
                     showHistory.toggle()
                 }
                 .sheet(isPresented: $showHistory) {
-                    OrderView(showOrder: $showHistory)
+                    OrderHistoryView(showOrder: $showHistory)
                         .environmentObject(orderStore)
                 }
                 .padding(.bottom)

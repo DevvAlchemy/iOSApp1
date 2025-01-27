@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct OrderView: View {
+struct OrderHistoryView: View {
     @EnvironmentObject var orderStore: OrderStore
     @Binding var showOrder: Bool
 
@@ -41,7 +41,7 @@ struct OrderView: View {
 
 struct OrderView_Previews: PreviewProvider {
     static var previews: some View {
-        OrderView(showOrder: .constant(true))
+        OrderHistoryView(showOrder: .constant(true))
             .environmentObject(OrderStore())
     }
 }
