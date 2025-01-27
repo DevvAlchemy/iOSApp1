@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selectedTab = 9
+    @State private var selectedTab = 9 //Content starts on Welcometab
     @StateObject private var orderStore = OrderStore()
 
     var body: some View {
@@ -26,7 +26,7 @@ struct ContentView: View {
                     Text("Order")
                 }
         }
-        .environmentObject(orderStore)
+        .environmentObject(orderStore)//Passed so on every click we have access to updated version
     }
 }
 
