@@ -1,0 +1,16 @@
+{
+  "images" : [
+    {
+      "filename" : "Tim_Hortons-logo.png",
+      "idiom" : "universal"
+    },
+    {
+      "height-class" : "compact",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
