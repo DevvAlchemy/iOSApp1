@@ -18,30 +18,33 @@ struct OrderHistoryView: View {
             .font(.title)
             .padding()
 
-            VStack {
-                Text("Orders")
-                    .font(.title)
-                    .padding()
+            if let orderDays = orderStore.orderDays, !orderDays.isEmpty {
                 Form {
-                    ForEach(orderStore.orderDays) { day in
+                    ForEach(orderDays) { day in
                         Section(
                             header:
                                 Text(day.date.formatted(as: "MMM d"))
-                                .font(.headline)) {
-                            ForEach(day.orders, id: \.self) { order in
-                                Text(order)
-                            }
+                                .font(.headline)
+                        ) {
+                            Section(
+                                header:
+                                    Text(day.date.formatted(as: "MMM d"))
+                                    .font(.headline)) {
+                                        ForEach(day.orders, id: \.self) { order in
+                                            Text(order)
+                                        }
+                                    }
                         }
                     }
                 }
             }
         }
     }
-}
 
-struct OrderView_Previews: PreviewProvider {
-    static var previews: some View {
-        OrderHistoryView(showOrder: .constant(true))
-            .environmentObject(OrderStore())
+    struct OrderView_Previews: PreviewProvider {
+        static var previews: some View {
+            OrderHistoryView(showOrder: .constant(true))
+                .environmentObject(OrderStore())
+        }
     }
 }

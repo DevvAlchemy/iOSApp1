@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  iOSAPP
-//
-//  Created by Royal K on 2025-01-25.
-//
-
 import SwiftUI
 
 struct OrderPageView: View {
@@ -12,8 +5,10 @@ struct OrderPageView: View {
     @State private var showOrder = false
     @State private var coffeeType = "Latte" //default selection on order page
     @State private var coffeeSize = "Medium" //default size for orders
-    @State private var Quantity = 1
+    @State private var quantity = 1
     @State private var coffeeRating = 3
+    @State private var showError = false
+    @State private var errorMessage = ""
 
     var body: some View {
         NavigationView {
@@ -38,7 +33,7 @@ struct OrderPageView: View {
                 .padding()
 
                 //Quantity
-                QuantityView (quantity:$Quantity)
+                QuantityView(quantity: $quantity)
                     .padding()
 
                 // Coffee Rating
@@ -47,18 +42,30 @@ struct OrderPageView: View {
 
                 // Save Order Button
                 Button(action: {
-                    let newOrder = "\(coffeeType) - \(coffeeSize)(Quantity: \(Quantity) (Rating: \(coffeeRating))"
-                    orderStore.addOrder(newOrder)
+                    do {
+                        let newOrder = "\(coffeeType) - \(coffeeSize) (Quantity: \(quantity)) (Rating: \(coffeeRating))"
+                        try orderStore.addOrder(newOrder)
+                    } catch OrderStore.OrderError.dataNotFound {
+                        showError = true
+                        errorMessage = "Unable to save order. Data not found."
+                    } catch {
+                        showError = true
+                        errorMessage = "Failed to save order. Please try again."
+                    }
                 }) {
                     Text("Save Order")
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.orange.opacity(0.7))
+                        .background {
+                            RoundedRectangle(cornerRadius: 55)
+                                .fill(Color.orange.opacity(0.7))
+                                .shadow(color: .black.opacity(0.2), radius: 3, x: 2, y: 2)
+                        }
                         .foregroundColor(.white)
-                        .cornerRadius(55)
                 }
                 .padding()
+                .disabled(orderStore.isLoading)
 
                 Spacer()
 
@@ -68,8 +75,11 @@ struct OrderPageView: View {
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(20)
+                        .background {
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color.gray.opacity(0.2))
+                                .shadow(color: .black.opacity(0.1), radius: 2, x: 1, y: 1)
+                        }
                 }
                 .padding()
             }
@@ -77,6 +87,22 @@ struct OrderPageView: View {
             .sheet(isPresented: $showOrder) {
                 OrderHistoryView(showOrder: $showOrder)
                     .environmentObject(orderStore)
+            }
+            .alert("Error", isPresented: $showError) {
+                Button("OK", role: .cancel) {
+                    showError = false
+                }
+            } message: {
+                Text(errorMessage)
+            }
+            .overlay {
+                if orderStore.isLoading {
+                    ProgressView()
+                        .scaleEffect(1.5)
+                        .padding()
+                        .background(.ultraThinMaterial)
+                        .cornerRadius(10)
+                }
             }
         }
     }
